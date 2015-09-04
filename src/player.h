@@ -32,7 +32,7 @@ public:
 	}
 	~Player() {}
 
-	int getPlayerPos() 
+	int getPlayerPos()
 	{
 		return position;
 	}
@@ -40,11 +40,6 @@ public:
 	int getPlayerAssets()
 	{
 		return assets;
-	}
-
-	int getPlayerPoints()
-	{
-		return points;
 	}
 
 	char getPlayerSign()
@@ -66,6 +61,11 @@ public:
 		return playerName;
 	}
 
+	int getPlayerPoints()
+	{
+		return points;
+	}
+
 	void setPlayerAssets(int m_assets)
 	{
 		assets = m_assets;
@@ -84,6 +84,11 @@ public:
 	void setPlayerPos(int pos)
 	{
 		position = pos;
+	}
+
+	void setPlayerPoints(int po)
+	{
+		points = po;
 	}
 
 };
