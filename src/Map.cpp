@@ -1,18 +1,22 @@
-#include "Map.h"
+#include "map.h"
 #include <iostream>
 using namespace std;
 
+//Map::Map()
+//{
+//	for (int i = 0; i < 8; i++)
+//	{
+//		for (int j = 0; j < 29; j++)
+//		{
+//			mapGraph[i][j] = ' ';
+//		}
+//	}
+//}
+
 Map::Map()
 {
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 29; j++)
-		{
-			mapGraph[i][j] = ' ';
-		}
-	}
-}
 
+}
 
 Map::~Map()
 {
@@ -20,6 +24,14 @@ Map::~Map()
 
 void Map::initMap()
 {
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 29; j++)
+		{
+		    mapGraph[i][j] = ' ';
+		}
+    }
+
 	init0();
 	
 	places[0].setPlaceSign('S');

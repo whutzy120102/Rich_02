@@ -1,8 +1,8 @@
 #ifndef _PLACE_H_
 #define _PLACE_H_
 
-#include "player.h"
-
+//#include "player.h"
+using namespace std;
 class Place
 {
 private:
@@ -11,12 +11,13 @@ private:
 	unsigned int placeType;	//地块的类型
 	int placePrice;	//地块的价格
 
-	Player placeOwner;	//地块拥有者
+	//Player placeOwner;	//地块拥有者
 	unsigned int x_place;	//地块x坐标
 	unsigned int y_place;	//地块y坐标
 
 public:
-
+	Place();
+	~Place();
 	/*
 	*函数： setPlaceType(Player player)
 	*参数说明：player:地块拥有者
@@ -27,7 +28,7 @@ public:
 	void setPlaceX(unsigned int x);
 	void setPlaceY(unsigned int y);
 	void setPlaceType(int type);
-	void setPlaceOwner(Player player);
+	//void setPlaceOwner(Player player);
 	void setPlaceSign(char sign);
 	void setPlaceLevel(int m_level);
 	/*
@@ -45,7 +46,7 @@ public:
 	unsigned int getPlaceX();
 	unsigned int getPlaceY();
 	char getPlaceSign();
-	string getPlaceOwnerName();
+	//string getPlaceOwnerName();
 	//地块收费
 	void charge(int money);
 

@@ -1,17 +1,19 @@
 #ifndef _MAP_H_
 #define _MAP_H_
-
 #include "place.h"
 //地图宽高
-const int WIDTH = 28;
+const int WIDTH = 29;
 const int HEIGHT = 8;
 class Map
 {
 private:
 	Place places[70];
 	char mapGraph[HEIGHT][WIDTH];	//存储地图数组
+	void init0();
 
 public:
+	Map();
+	~Map();
 
 	/*
 	*函数：initMap()
