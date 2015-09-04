@@ -2,20 +2,9 @@
 #include <iostream>
 using namespace std;
 
-//Map::Map()
-//{
-//	for (int i = 0; i < 8; i++)
-//	{
-//		for (int j = 0; j < 29; j++)
-//		{
-//			mapGraph[i][j] = ' ';
-//		}
-//	}
-//}
-
 Map::Map()
 {
-
+	
 }
 
 Map::~Map()
@@ -28,9 +17,9 @@ void Map::initMap()
 	{
 		for (int j = 0; j < 29; j++)
 		{
-		    mapGraph[i][j] = ' ';
+			mapGraph[i][j] = ' ';
 		}
-    }
+	}
 
 	init0();
 	
