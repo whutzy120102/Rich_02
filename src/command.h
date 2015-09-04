@@ -12,6 +12,8 @@
 class Command
 {
 public:
+	Command() {}
+	~Command() {}
 
 	/*
 	*º¯Êý£ºhelp()
@@ -59,6 +61,6 @@ public:
 	void query(Player player);
 
 	void exit(Player player, Map map);
-	void quit();
+
 };
 #endif

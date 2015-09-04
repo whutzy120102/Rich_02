@@ -55,5 +55,4 @@ quit    结束游戏。\n\
 	 cout << "玩家资产信息如下";
  }
 
- void Command::exit()
-
+ //void Command::exit();

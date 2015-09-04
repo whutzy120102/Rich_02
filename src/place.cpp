@@ -1,6 +1,5 @@
 #include "place.h"
 
-
 void Place::setPlaceX(unsigned int x)
 {
 	x_place = x;

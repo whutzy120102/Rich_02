@@ -7,18 +7,32 @@
 #include "map.h"
 #include "player.h"
 #include "command.h"
+#include <vector>
+
+const int MAX_PLAYER_NUM = 4;
 
 class Game
 {
 private:
-	Map map;
-	Player *player;
-	Command command;
+	Map *map;
+	vector<Player> players;
+	Command *command;
 	int playerNum;
 
 public:
-	Game() {}
-	~Game() {}
+	Game()
+	{
+		command = new Command();
+		map = new Map();
+		playerNum = 0;
+	}
+
+	~Game()
+	{
+		delete command;
+		delete map;
+		//playerNum = 0;
+	}
 
 	/*
 	*函数：initPlayer()
@@ -27,7 +41,13 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void initPlayer();
+	void initPlayer()
+	{
+		addPlayer(Player("wangfei", 1));
+		addPlayer(Player("liuzi", 2));
+		addPlayer(Player("xiaoqiang", 3));
+		addPlayer(Player("leixiao", 4));
+	}
 
 	/*
 	*函数：initGame()
@@ -36,7 +56,12 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void initGame();
+	void initGame()
+	{
+		initPlayer();
+		map->initMap();
+		map->printMap();
+	}
 
 	/*
 	*函数：destroyPlayer()
@@ -63,7 +88,12 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void addPlayer();
+	void addPlayer(Player player)
+	{
+		players.push_back(player);
+		//玩家数目加1
+		playerNum++;
+	}
 
 	/*
 	*函数：deletePlayer()
@@ -72,7 +102,28 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void deletePlayer();
+	void deletePlayer(Player player)
+	{
+		vector<Player>::iterator it;
+		for (it = players.begin(); it != players.end(); ++it)
+		{
+			if (player.getPlayerId() == it->getPlayerId())
+			{
+				players.erase(it);
+				break;
+			}
+		}
+	}
+
+	//执行游戏
+	void goGame()
+	{
+		initGame();
+		while (playerNum > 1)
+		{
+			cout << "";
+		}
+	}
 };
 
 #endif
