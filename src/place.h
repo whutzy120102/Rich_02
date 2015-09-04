@@ -24,6 +24,8 @@ public:
 	*返回值：无
 	*作者：
 	*/
+	void setPlaceX(unsigned int x);
+	void setPlaceY(unsigned int y);
 	void setPlaceType(int type);
 	void setPlaceOwner(Player player);
 	void setPlaceSign(char sign);

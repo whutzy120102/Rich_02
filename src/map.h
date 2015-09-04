@@ -8,8 +8,8 @@ const int HEIGHT = 8;
 class Map
 {
 private:
-	Place* places;
-	char mapGraph[WIDTH][HEIGHT];	//存储地图数组
+	Place places[70];
+	char mapGraph[HEIGHT][WIDTH];	//存储地图数组
 
 public:
 
