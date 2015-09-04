@@ -2,15 +2,17 @@
 #define _PLACE_H_
 
 #include "player.h"
-class Place 
+
+class Place
 {
 private:
-	char sign;	//地块显示字符
-	unsigned int type;	//地块的类型
-	int price;	//地块的价格
-	Player owner;	//地块拥有者
-	unsigned int x;	//地块x坐标
-	unsigned int y;	//地块y坐标
+	char placeSign;	//地块显示字符
+	unsigned int placeType;	//地块的类型
+	int placePrice;	//地块的价格
+
+	Player placeOwner;	//地块拥有者
+	unsigned int x_place;	//地块x坐标
+	unsigned int y_place;	//地块y坐标
 
 public:
 
@@ -21,8 +23,9 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void setPlaceType(Player player);
-
+	void setPlaceType(int type);
+	//void setPlaceOwner(Player player);
+	void setPlaceSign(char sign);
 	/*
 	*函数： getPlaceType()
 	*参数说明：无
@@ -31,6 +34,16 @@ public:
 	*作者：
 	*/
 	int getPlaceType();
+
+	int getPlacePrice();
+
+	unsigned int getPlaceX();
+	unsigned int getPlaceY();
+	char getPlaceSign();
+	//string getPlaceOwnerName();
+	//地块收费
+	void charge(int money);
+
 };
 #endif
 
