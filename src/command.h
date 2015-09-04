@@ -5,7 +5,7 @@
 *ÉùÃ÷ÃüÁîÀà
 */
 
-class Command 
+class Command
 {
 public:
 

@@ -7,6 +7,7 @@ class Place
 {
 private:
 	char placeSign;	//地块显示字符
+	unsigned int level; //地块级别
 	unsigned int placeType;	//地块的类型
 	int placePrice;	//地块的价格
 
@@ -24,8 +25,9 @@ public:
 	*作者：
 	*/
 	void setPlaceType(int type);
-	//void setPlaceOwner(Player player);
+	void setPlaceOwner(Player player);
 	void setPlaceSign(char sign);
+	void setPlaceLevel(int m_level);
 	/*
 	*函数： getPlaceType()
 	*参数说明：无
@@ -36,14 +38,14 @@ public:
 	int getPlaceType();
 
 	int getPlacePrice();
+	int getPlaceLevel();
 
 	unsigned int getPlaceX();
 	unsigned int getPlaceY();
 	char getPlaceSign();
-	//string getPlaceOwnerName();
+	string getPlaceOwnerName();
 	//地块收费
 	void charge(int money);
 
 };
 #endif
-
