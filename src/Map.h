@@ -3,7 +3,7 @@
 
 #include "place.h"
 //地图宽高
-const int WIDTH = 28;
+const int WIDTH = 29;
 const int HEIGHT = 8;
 class Map
 {
@@ -13,6 +13,9 @@ private:
 
 public:
 
+	Map();
+	~Map();
+
 	/*
 	*函数：initMap()
 	*参数说明：无
@@ -21,6 +24,17 @@ public:
 	*作者：
 	*/
 	void initMap();
+
+
+	/*
+	*函数：init0()
+	*参数说明：无
+	*功能：将地图上所有的点都初始化为空地
+	*返回值：无
+	*作者：
+	*/
+	void init0();
+
 
 	/*
 	*函数：setMapHereSign(int x, int y, char sign)
@@ -48,10 +62,6 @@ public:
 	*作者：
 	*/
 	void printMap();
-
-
-
-	/*************************此处添加没有的代码*************************/
-	int getPlaceNum();
 };
 #endif
+
