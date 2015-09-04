@@ -1,6 +1,10 @@
 #ifndef _COMMAND_H_
 #define _COMMAND_H_
 
+#include "player.h"
+#include "map.h"
+#include "playerAction.h"
+
 /**
 *声明命令类
 */
@@ -34,7 +38,7 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void roll();
+	void roll(Player player, Map map, PlayerAction pAction);
 
 	/*
 	*函数：sell()
@@ -43,6 +47,18 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void sell();
+	bool sell(Player player, Place place, int position);
+
+	/*
+	*函数：query()
+	*参数说明：无
+	*功能：查询玩家资产信息
+	*返回值：无
+	*作者：
+	*/
+	void query(Player player);
+
+	void exit(Player player, Map map);
+	void quit();
 };
 #endif

@@ -14,6 +14,7 @@ private:
 	Map map;
 	Player *player;
 	Command command;
+	int playerNum;
 
 public:
 	Game() {}

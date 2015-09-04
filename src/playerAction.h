@@ -62,7 +62,7 @@ public:
 			//玩家重新设置资产
 			player.setPlayerAssets(currentAssets);
 			//空地设置拥有者
-			place.setPlaceOwner(player);
+			place.setPlaceOwner(&player);
 			//地块设置属性----------------这里注意设置常量
 			place.setPlaceType(1);
 			//地块显示该地块级别符号
