@@ -121,3 +121,14 @@ void Player::setPlayerId(int id)
 	playerId = id;
 }
 
+//设置轮空次数
+void Player::setNoActionTimes(int times)
+{
+	noActionTimes = times;
+}
+
+//获取轮空次数
+int Player::getNoActionTimes()
+{
+	return noActionTimes;
+}

@@ -134,6 +134,8 @@ public:
 
 	//Ë¢ÐÂµØÍ¼
 	void Game::flushMap();
+
+	
 };
 
 #endif

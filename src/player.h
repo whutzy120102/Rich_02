@@ -24,12 +24,15 @@ private:
 	char playerSign;	//玩家显示符号
 	unsigned short signColor;	//玩家显示颜色
 
+	int noActionTimes;	//轮空次数
+
 public:
 	Player(string m_name, int m_id, char m_sign) :
 		playerName(m_name), playerId(m_id),playerSign(m_sign) {
 		assets = 0;
 		points = 0;
 		position = 0;
+		noActionTimes = 0;
 	}
 	~Player() {}
 
@@ -74,6 +77,10 @@ public:
 	void setPlayerPoints(int po);
 
 	void setPlayerId(int id);
+
+	void setNoActionTimes(int times);
+	
+	int getNoActionTimes();
 };
 
 #endif
