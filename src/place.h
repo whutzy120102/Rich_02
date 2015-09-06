@@ -2,16 +2,18 @@
 #define _PLACE_H_
 
 #include "player.h"
+#include <vector>
+#include<stack>
 
 class Place
 {
 private:
 	char placeSign;	//地块显示字符
 	unsigned int level; //地块级别
-	unsigned int placeType;	//地块的类型
+	int placeType;	//地块的类型
 	int placePrice;	//地块的价格
-
-	Player *placeOwner;	//地块拥有者
+	stack<vector<Player>::iterator > stayPlayers;//驻留用户
+	vector<Player>::iterator placeOwner;	//地块拥有者
 	unsigned int x_place;	//地块x坐标
 	unsigned int y_place;	//地块y坐标
 
@@ -22,7 +24,7 @@ public:
 	void setPlaceX(unsigned int x);
 	void setPlaceY(unsigned int y);
 	void setPlaceType(int type);
-	void setPlaceOwner(Player* player);
+	void setPlaceOwner(vector<Player>::iterator it);
 	void setPlaceSign(char sign);
 	void setPlaceLevel(int m_level);
 	void setPlacePrice(int price);
@@ -36,7 +38,7 @@ public:
 	int getPlaceType();
 
 	int getPlacePrice();
-	int getPlaceLevel();
+	unsigned int getPlaceLevel();
 
 	unsigned int getPlaceX();
 	unsigned int getPlaceY();
@@ -51,6 +53,19 @@ public:
 	*作者：王飞
 	*/
 	void charge(int money);
+
+	//添加驻留玩家
+	void pushStayPlayers(vector<Player>::iterator it);
+
+
+	//获取最近驻留用户
+	vector<Player>::iterator topStayPlayers();
+
+	//出栈顶最近驻留用户
+	void popStayPlayers();
+
+	//驻留数
+	int getStayPlayerNum();
 
 };
 #endif

@@ -1,15 +1,14 @@
 #include <iostream>
-
+#include "gameControler.h"
 using namespace std;
-#include "map.h"
-#include "game.h"
+
 
 int main()
 {
-	Game *game = new Game();
-	
-	game->initGame();
-	game->deletePlayer(Player("wang", 2));
+
+	GameControler gameControler;
+	gameControler.startGame();
 	system("pause");
+	
 	return 0;
 }

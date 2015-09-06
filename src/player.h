@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Player {
 private:
 	string playerName;	//玩家姓名
 	int playerId;		//玩家ID
-
+	vector<int> ownPos;
 	int assets;		//资产,默认10000，初始为10000
 					//	int fixedAssets;	//固定资产
 	int points;		//玩家可用点数
@@ -24,73 +25,55 @@ private:
 	unsigned short signColor;	//玩家显示颜色
 
 public:
-	Player(string m_name, int m_id) :
-		playerName(m_name), playerId(m_id) {
+	Player(string m_name, int m_id, char m_sign) :
+		playerName(m_name), playerId(m_id),playerSign(m_sign) {
 		assets = 0;
 		points = 0;
 		position = 0;
 	}
 	~Player() {}
 
-	int getPlayerPos()
-	{
-		return position;
-	}
+	//查询拥有地块个数
+	int getOwnPosNum();
 
-	int getPlayerAssets()
-	{
-		return assets;
-	}
+	//添加自己拥有的位置
+	void putOwnPos(int pos);
 
-	char getPlayerSign()
-	{
-		return playerSign;
-	}
-	unsigned short getPlayerSignColor()
-	{
-		return signColor;
-	}
+	//查询自己所有拥有地块
+	void printOwnPos();
 
-	int getPlayerId()
-	{
-		return playerId;
-	}
+	//查询指定编号的拥有地块 ,判断是否是自己的地块
+	bool isOwnPos(int pos);
 
-	string getPlayerName()
-	{
-		return playerName;
-	}
+	void deletePos(int pos);
 
-	int getPlayerPoints()
-	{
-		return points;
-	}
+	vector<int> getOwnPosContainer();
 
-	void setPlayerAssets(int m_assets)
-	{
-		assets = m_assets;
-	}
+	int getPlayerPos();
 
-	void setPlayerSign(char sign)
-	{
-		playerSign = sign;
-	}
+	int getPlayerAssets();
 
-	void setPlayerName(string name)
-	{
-		playerName = name;
-	}
+	char getPlayerSign();
 
-	void setPlayerPos(int pos)
-	{
-		position = pos;
-	}
+	unsigned short getPlayerSignColor();
 
-	void setPlayerPoints(int po)
-	{
-		points = po;
-	}
+	int getPlayerId();
 
+	string getPlayerName();
+
+	int getPlayerPoints();
+
+	void setPlayerAssets(int m_assets);
+
+	void setPlayerSign(char sign);
+
+	void setPlayerName(string name);
+
+	void setPlayerPos(int pos);
+
+	void setPlayerPoints(int po);
+
+	void setPlayerId(int id);
 };
 
 #endif

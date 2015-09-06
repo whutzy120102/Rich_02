@@ -4,12 +4,35 @@
 #include "player.h"
 #include "place.h"
 #include "map.h"
+#include <vector>
 
 class PlayerAction
 {
 
 public:
 
+
+	//离开当前位置后
+	static void levPlace(vector<Player>::iterator it, Map *map)
+	{
+		int currentPos = it->getPlayerPos();
+		int x = _X_Y_PLACE[currentPos][0];
+		int y = _X_Y_PLACE[currentPos][1];
+		/*if (map->getHerePlayerNum(currentPos) > 1)
+		{
+			vector<Player>::iterator prePlayer;
+			map->popHerePlayer(currentPos);
+			prePlayer = map->topHerePlayer(currentPos);
+			map->setMapHereSign(x, y, prePlayer->getPlayerSign());
+		}*/
+	//	else
+		//{
+			map->setMapHereSign(x, y, map->getMapHereSign(currentPos));
+			//map->popHerePlayer(currentPos);
+		//}
+		
+		
+	}
 	/*
 	*函数：goStep(int step)
 	*参数说明：step玩家掷骰子获得的点数，即行走步数
@@ -17,13 +40,16 @@ public:
 	*返回值：int:当前位置
 	*作者：王飞
 	*/
-	int goStep(Player player, Map map, int step)
+	static int goStep(vector<Player>::iterator it, Map *map, int step)
 	{
-		int currentPos = player.getPlayerPos();
+		int currentPos = it->getPlayerPos();
 		//玩家循环行走
-		currentPos = (currentPos + step) % (map.getPlaceNum());
+		currentPos = (currentPos + step) % (map->getPlaceNum());
 		//此处设置地图显示符号
-
+		int x = _X_Y_PLACE[currentPos][0];
+		int y = _X_Y_PLACE[currentPos][1];
+		map->pushHerePlayer(it, currentPos);
+		map->setMapHereSign(x, y, it->getPlayerSign());
 		return currentPos;
 	}
 
@@ -34,12 +60,12 @@ public:
 	*返回值：int:玩家位置
 	*作者：王飞
 	*/
-	void resetPlayerPos(Player player, Map map, int step)
+	static void resetPlayerPos(vector<Player>::iterator it, Map *map, int step)
 	{
 		//获取玩家行走之后的位置
-		int position = goStep(player, map, step);
+		int position = goStep(it, map, step);
 		//重新设置玩家位置
-		player.setPlayerPos(position);
+		it->setPlayerPos(position);
 	}
 
 	/*
@@ -49,25 +75,25 @@ public:
 	*返回值：bool
 	*作者：王飞
 	*/
-	bool buyLand(Player player, Place place)
+	static bool buyLand(vector<Player>::iterator it, Map *map, int pos)
 	{
 		//玩家资产大于地价，进行买卖
-		if (player.getPlayerAssets() > place.getPlacePrice())
+		if (it->getPlayerAssets() >= map->getPlacePrice(pos))
 		{
-			cout << endl;
-			cout << "你将花费 " << place.getPlacePrice() << "买去该地" << endl;
-			cout << "请收好该地地址：(" << place.getPlaceX() << ", " << place.getPlaceY() << ")";
+			cout << "请收好该地地址：(" << _X_Y_PLACE[pos][0] << ", " << _X_Y_PLACE[pos][1] << ")";
 
-			int currentAssets = player.getPlayerAssets() - place.getPlacePrice();
+			int currentAssets = it->getPlayerAssets() - map->getPlacePrice(pos);
 			//玩家重新设置资产
-			player.setPlayerAssets(currentAssets);
+			it->setPlayerAssets(currentAssets);
+			//添加地块
+			it->putOwnPos(pos);
 			//空地设置拥有者
-			place.setPlaceOwner(&player);
+			map->setPlaceOwner(it, pos);
 			//地块设置属性----------------这里注意设置常量
-			place.setPlaceType(1);
+			map->setPlaceType(1, pos);
 			//地块显示该地块级别符号
-			place.setPlaceSign('0');
-			place.setPlaceLevel(0);
+			map->setPlaceSign('0', pos);
+			map->setPlaceLevel(0, pos);
 
 			return true;
 		}
@@ -82,25 +108,37 @@ public:
 	*返回值：bool
 	*作者：王飞
 	*/
-	bool payForStay(Player player, Place place)
+	static bool payForStay(vector<Player>::iterator it, Map *map, int pos)
 	{
 		int placeLevel = 0;
 		
 		//停留他人地块费用
-		int stayCost = (place.getPlacePrice() * (place.getPlaceLevel() + 1)) / 2;
+		int stayCost = (map->getPlacePrice(pos) * (map->getPlaceLevel(pos) + 1)) / 2;
 
-		if (player.getPlayerAssets() > stayCost)
+		if (it->getPlayerAssets() >= stayCost)
 		{
 			cout << endl;
-				cout << "请向此地块拥有者：" << place.getPlaceOwnerName() <<
+				cout << "请向此地块拥有者：" << map->getPlaceOwnerName(pos) <<
 				"缴纳如下费用：" << stayCost << endl;
 
-			int currAssets = player.getPlayerAssets() - stayCost;
+			int currAssets = it->getPlayerAssets() - stayCost;
 			//重新设置财产
-			player.setPlayerAssets(currAssets);
+			it->setPlayerAssets(currAssets);
 			//地块收费
-			place.charge(stayCost);
+			map->charge(stayCost, pos);
 			return true;
+		}
+		else
+		{
+			cout << "请先出售地块来支付停留费用";
+			queryAssets(it);
+			if (it->getOwnPosNum() != 0)
+			{
+				sellPlace(it, map);
+				payForStay(it, map, pos);
+			}
+			else return false;
+			
 		}
 		return false;
 	}
@@ -113,27 +151,27 @@ public:
 	*返回值：bool
 	*作者：王飞
 	*/
-	bool uppdatePlate(Player player, Place place)
+	static bool uppdatePlate(vector<Player>::iterator it, Map *map, int pos)
 	{
 		//此处可以分离出函数判断
-		if (place.getPlaceLevel() > 3)
+		if (map->getPlaceLevel(pos) > 3)
 		{
 			cout << "此地块已达到最高级别，不能再升级" << endl;
 			return false;
 		}
-		if (player.getPlayerAssets() > place.getPlacePrice())
+		if (it->getPlayerAssets() >= map->getPlacePrice(pos))
 		{
-			int currLevel = place.getPlaceLevel();
+			int currLevel = map->getPlaceLevel(pos);
 			cout << "当前你的地块级别为：" << currLevel << endl;
-			cout << "你将花费：" << place.getPlacePrice() << "进行地块升级" << endl;
+			cout << "你将花费：" << map->getPlacePrice(pos) << "进行地块升级" << endl;
 
 			//玩家重新设置资产
-			int currAssets = player.getPlayerAssets() - place.getPlacePrice();
-			player.setPlayerAssets(currAssets);
+			int currAssets = it->getPlayerAssets() - map->getPlacePrice(pos);
+			it->setPlayerAssets(currAssets);
 
 			//地块升级
 			currLevel += 1;
-			place.setPlaceLevel(currLevel);
+			map->setPlaceLevel(currLevel, pos);
 
 			return true;
 		}
@@ -147,10 +185,10 @@ public:
 	*返回值：无
 	*作者：王飞
 	*/
-	void addPoints(Player player, int points)
+	static void addPoints(vector<Player>::iterator it, int points)
 	{
-		int currPoints = player.getPlayerPoints();
-		player.setPlayerPoints(currPoints + points);
+		int currPoints = it->getPlayerPoints();
+		it->setPlayerPoints(currPoints + points);
 	}
 
 	/*
@@ -160,42 +198,57 @@ public:
 	*返回值：无
 	*作者：王飞
 	*/
-	void stayInDiffPlace(Player player, Place place)
+	static bool stayInDiffPlace(vector<Player>::iterator it, Map *map, int pos)
 	{
+		bool doAction = false;
 		//获取地块类别
-		int placeType = place.getPlaceType();
+		int placeType = map->getPlaceType(pos);
 		//获取地块级别
-		int placeLevel = place.getPlaceLevel();
+		int placeLevel = map->getPlaceLevel(pos);
 
-		char *choice;
+		char choice = 'n'; 
 		
 		switch (placeType)
 		{
 		//空地
 		case 0:
-				buyLand(player, place);
+			    char isBuy;
+				cout << endl;
+				cout << "此处是空地，请选择是否购买" << endl;
+				cin >> isBuy;
+				if (isBuy == 'y')
+				{
+					cout << "你将花费 " << map->getPlacePrice(pos) << "买去该地" << endl;
+					doAction = buyLand(it, map, pos);
+					if (!doAction)
+					{
+						queryAssets(it);
+						cout << "你没有足够的资金买这块土地" << endl;
+					}
+				}
 				break;
 		case 1:
 			//呆在别人地块,交费
-			if (player.getPlayerName() != place.getPlaceOwnerName())
+			if (it->getPlayerName() != map->getPlaceOwnerName(pos))
 			{
-				payForStay(player, place);
+				doAction = payForStay(it, map, pos);
 			}
 			//呆在自己地块，可选择升级
 			else
 			{
 				cout << "此处是你本人地块，请选择是否升级, y or n:" << endl;
 				cin >> choice;
-				if(strcmp(choice, "y") == 0)
+				if(choice == 'y')
 				{ 
-					uppdatePlate(player, place);
+					doAction = uppdatePlate(it, map, pos);
 				}
 		        
 			}
 			break;
 		//呆在矿地
 		case 2:
-			addPoints(player, place.getPlacePrice());
+			addPoints(it, map->getPlacePrice(pos));
+			doAction = true;
 			break;
 		//呆在监狱
 		case 3:
@@ -203,7 +256,63 @@ public:
 		default:
 			break;
 		}
+		return doAction;
 	}
+
+	//查询用户资产
+	static void queryAssets(vector<Player>::iterator it)
+	{
+		cout << "你当前资产如下：" << endl;
+		cout << "钱财：" << it->getPlayerAssets() << endl
+			<< "点数：" << it->getPlayerPoints() << endl
+			<< "拥有地块：";
+		it->printOwnPos();
+		cout << endl;
+	}
+
+	//查询是否还有资产
+	static bool isNoAssets(vector<Player>::iterator it)
+	{
+		if (it->getOwnPosNum() == 0 && it->getPlayerAssets() == 0)
+			return true;
+		return false;
+	}
+
+	//出售房产
+	static bool sellPlace(vector<Player>::iterator it, Map *map)
+	{
+		int pos;
+		cout << "请输入要出售地块编号" << endl;
+		cin >> pos;
+		if (it->isOwnPos(pos))
+		{
+			cout << "你将出售编号为" << pos << "的地块" << endl;
+			cout << "收益：" << (map->getPlaceLevel(pos) + 1) * map->getPlacePrice(pos) << endl;
+			cout << "请选择: y or n";
+			char choice;
+			cin >> choice;
+			if (choice == 'y')
+			{
+				int currAssets = it->getPlayerAssets();
+				int inCome = (map->getPlaceLevel(pos) + 1) * map->getPlacePrice(pos);
+				it->setPlayerAssets(currAssets + inCome);
+				it->deletePos(pos);
+				map->setMapHereSign(_X_Y_PLACE[pos][0], _X_Y_PLACE[pos][1], '0');
+				map->setPlaceLevel(pos, 0);
+				map->setPlaceType(pos, 0);
+				map->setPlaceSign(pos, '0');
+			}
+			else
+				return true;
+		}
+		else
+		{
+			cout << "这里并不是你的地盘，你这样做可能招来横祸" << endl;
+		}
+		return false;
+	}
+	
+
 
 };
 

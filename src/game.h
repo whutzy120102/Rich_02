@@ -7,9 +7,17 @@
 #include "map.h"
 #include "player.h"
 #include "command.h"
+#include "function.h"
 #include <vector>
 
-const int MAX_PLAYER_NUM = 4;
+
+const int MAX_PLAYER_NUM = 5;	//最大允许设置玩家
+const int MIN_PLAYER_NUM = 2;	//最小允许设置玩家
+//可供选择的玩家
+
+const string STAY_PLAYERS[MAX_PLAYER_NUM] ={ "钱夫人", "阿土伯", "孙小美","金贝贝" };
+const char PLAYER_SIGN[MAX_PLAYER_NUM] = { 'Q', 'A', 'S', 'J' };
+
 
 class Game
 {
@@ -18,6 +26,7 @@ private:
 	vector<Player> players;
 	Command *command;
 	int playerNum;
+	int defaultMoney;	//默认初始化资产
 
 public:
 	Game()
@@ -25,14 +34,18 @@ public:
 		command = new Command();
 		map = new Map();
 		playerNum = 0;
+		defaultMoney = 10000;
 	}
 
 	~Game()
 	{
 		delete command;
 		delete map;
-		//playerNum = 0;
+		players.clear();
 	}
+
+	//设置初始资金
+	void setDefalutMoney();
 
 	/*
 	*函数：initPlayer()
@@ -41,13 +54,9 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void initPlayer()
-	{
-		addPlayer(Player("wangfei", 1));
-		addPlayer(Player("liuzi", 2));
-		addPlayer(Player("xiaoqiang", 3));
-		addPlayer(Player("leixiao", 4));
-	}
+	void initPlayer();
+
+
 
 	/*
 	*函数：initGame()
@@ -56,12 +65,7 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void initGame()
-	{
-		initPlayer();
-		map->initMap();
-		map->printMap();
-	}
+	void initGame();
 
 	/*
 	*函数：destroyPlayer()
@@ -88,12 +92,14 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void addPlayer(Player player)
-	{
-		players.push_back(player);
-		//玩家数目加1
-		playerNum++;
-	}
+	void addPlayer(Player player);
+
+
+	//重新设置玩家相关地图
+	void cleanMapOfPlayer(vector<Player>::iterator it, Map *map);
+
+	//清空玩家设置
+	void cleanPlayer(vector<Player>::iterator it);
 
 	/*
 	*函数：deletePlayer()
@@ -102,28 +108,32 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void deletePlayer(Player player)
-	{
-		vector<Player>::iterator it;
-		for (it = players.begin(); it != players.end(); ++it)
-		{
-			if (player.getPlayerId() == it->getPlayerId())
-			{
-				players.erase(it);
-				break;
-			}
-		}
-	}
+	void deletePlayer(vector<Player>::iterator it);
 
-	//执行游戏
-	void goGame()
-	{
-		initGame();
-		while (playerNum > 1)
-		{
-			cout << "";
-		}
-	}
+	//游戏主体,主要包括玩家一次各种操作
+	void goGameBody();
+
+	//执行游戏，再次封装游戏
+	void goGame();
+
+	//选择玩家
+	void choicePlayer(char *input);
+
+	//检查玩家是否存在
+	bool isExistPlayer(char *input);
+
+	//检查输入玩家是否重复
+	bool isInputPlayer(char *input);
+
+
+	//输入玩家
+	void getPlayerInput(char *input);
+
+	//输入命令
+	void getCommandInput(char *input);
+
+	//刷新地图
+	void Game::flushMap();
 };
 
 #endif

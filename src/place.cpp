@@ -23,9 +23,9 @@ void Place::setPlaceType(int type)
 	placeType = type;
 }
 
-void Place::setPlaceOwner(Player* player)
+void Place::setPlaceOwner(vector<Player>::iterator it)
 {
-	placeOwner = player;
+	placeOwner = it;
 }
 
 /**
@@ -68,7 +68,7 @@ int Place::getPlacePrice()
 	return placePrice;
 }
 
-int Place::getPlaceLevel()
+unsigned int Place::getPlaceLevel()
 {
 	return level;
 }
@@ -104,4 +104,29 @@ void Place::charge(int money)
 {
 	int currAssets = placeOwner->getPlayerAssets();
 	placeOwner->setPlayerAssets(currAssets + money);
+}
+
+//添加驻留用户
+void Place::pushStayPlayers(vector<Player>::iterator it)
+{
+	stayPlayers.push(it);
+}
+
+vector<Player>::iterator Place::topStayPlayers()
+{
+	vector<Player>::iterator it;
+	it = stayPlayers.top();
+	return it;
+}
+
+//出栈顶最近驻留用户
+void Place::popStayPlayers()
+{
+	stayPlayers.pop();
+}
+
+//驻留数
+int Place::getStayPlayerNum()
+{
+	return stayPlayers.size();
 }
