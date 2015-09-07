@@ -69,7 +69,10 @@ void Game::initGame()
 *返回值：无
 *作者：
 */
-void Game::destroyGame() {}
+void Game::destroyGame() 
+{
+	players.clear();
+}
 
 /*
 *函数：quitGame()
@@ -99,10 +102,12 @@ void Game::addPlayer(Player player)
 *返回值：无
 *作者：
 */
-void Game::deletePlayer(vector<Player>::iterator it)
+vector<Player>::iterator Game::deletePlayer(vector<Player>::iterator it)
 {
 
-	players.erase(it);
+	it = players.erase(it);
+
+	return it;
 }
 
 //执行命令
@@ -193,7 +198,22 @@ void Game::goGameBody()
 					{
 						command->exit(it, map);
 
-						deletePlayer(it);
+						it = deletePlayer(it);
+						if (players.size() == 0)
+						{
+
+							cout << "游戏结束" << endl;
+							return;
+						}
+						if (it == players.end())
+						{
+							it = players.begin();
+						}
+						
+						if (it == players.end())
+						{
+							it = players.begin();
+						}
 						needInc = true;
 						break;
 					}
@@ -225,14 +245,20 @@ void Game::goGameBody()
 				PlayerAction::queryAssets(it);
 				cout << "你当前资产已经不足以玩本游戏， 游戏无奈让你退出" << endl;
 				command->exit(it, map);
-				deletePlayer(it);
+				it = deletePlayer(it);
+				if (it == players.end())
+				{
+					it = players.begin();
+				}
 
 			}
 
 
 			if (players.size() == 1)
 			{
+				cout << "恭喜" << it->getPlayerName() << "胜利" << endl;
 				cout << "游戏结束" << endl;
+				destroyGame();
 				return;
 			}
 			//刷新屏幕
@@ -248,6 +274,7 @@ void Game::goGame()
 	char isPlay = 'y';
 	while (isPlay == 'y')
 	{
+		system("cls");
 		initGame();
 		goGameBody();
 		cout << "是否重新开始游戏：y or n";
@@ -266,6 +293,13 @@ void Game::choicePlayer(char *input)
 			cout << "输入有误，注意输入格式并不要重复选择玩家" << endl;
 			continue;
 		}
+		/*if (playerNum < (MIN_PLAYER_NUM-1) || playerNum > MAX_PLAYER_NUM-1 )
+		{
+			cout << "输入玩家数量有误（2-4）" << endl;
+			cout << "请重新输入用户" << endl;
+			getPlayerInput(input);
+			continue;
+		}*/
 		playerNum = strlen(input);
 	} while (playerNum < MIN_PLAYER_NUM || playerNum > MAX_PLAYER_NUM);
 

@@ -29,7 +29,9 @@ quit    结束游戏。\n";
  //出售土地命令
  void Command::sell(vector<Player>::iterator it, Map *map)
  {
-	 PlayerAction::sellPlace(it, map);
+		 PlayerAction::sellPlace(it, map); 
+
+	
  }
  
  //查询玩家信息命令

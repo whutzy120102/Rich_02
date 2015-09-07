@@ -108,7 +108,7 @@ public:
 	*返回值：无
 	*作者：
 	*/
-	void deletePlayer(vector<Player>::iterator it);
+	vector<Player>::iterator deletePlayer(vector<Player>::iterator it);
 
 	//游戏主体,主要包括玩家一次各种操作
 	void goGameBody();
