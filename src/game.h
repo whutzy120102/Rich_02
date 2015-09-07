@@ -34,7 +34,7 @@ public:
 		command = new Command();
 		map = new Map();
 		playerNum = 0;
-		defaultMoney = 10000;
+		defaultMoney = 0;
 	}
 
 	~Game()

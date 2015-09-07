@@ -37,7 +37,7 @@ inline std::ostream&  redcolor(std::ostream& ostr)
 
 inline std::ostream&  lredcolor(std::ostream& ostr)
 {
-	SetConsoleColor(FOREGROUND_RED);
+	SetConsoleColor(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	return ostr;
 }
 //std::cout << greencolor << "hello " << redcolor << " world!";

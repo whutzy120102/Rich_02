@@ -21,7 +21,7 @@ sell n  出售地图上n位置上的房产\n\
 query   查询当前玩家资产信息。\n\
 help    帮助。\n\
 exit    玩家退出游戏\n\
-quit    结束游戏。\n\\n";
+quit    结束游戏。\n";
 	cout << help_string;
 }
  
@@ -89,13 +89,13 @@ quit    结束游戏。\n\\n";
  //用户选择退出
  void Command::exit(vector<Player>::iterator it, Map *map)
  {
-	 /*
+	 
 	 it->setPlayerAssets(0);
 	 it->setPlayerPoints(0);
 	 it->setPlayerId(0);
 	 it->setPlayerName("");
 	 it->setPlayerPos(0);
 	 it->setPlayerSign(' ');
-	 */
+	
 	 map->cleanMapOfPlayer(it);
  }
