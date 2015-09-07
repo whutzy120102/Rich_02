@@ -27,8 +27,8 @@ private:
 	int noActionTimes;	//ÂÖ¿Õ´ÎÊý
 
 public:
-	Player(string m_name, int m_id, char m_sign) :
-		playerName(m_name), playerId(m_id),playerSign(m_sign) {
+	Player(string m_name, int m_id, char m_sign, unsigned short color) :
+		playerName(m_name), playerId(m_id),playerSign(m_sign), signColor(color) {
 		assets = 0;
 		points = 0;
 		position = 0;

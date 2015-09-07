@@ -110,24 +110,33 @@ void Place::charge(int money)
 //添加驻留用户
 void Place::pushStayPlayers(vector<Player>::iterator it)
 {
-	stayPlayers.push(it);
+	stayPlayers.push_back(it);
 }
 
-vector<Player>::iterator Place::topStayPlayers()
+//
+vector<vector<Player>::iterator>::iterator Place::topStayPlayers()
 {
-	vector<Player>::iterator it;
-	it = stayPlayers.top();
-	return it;
+	
+	return stayPlayers.end();
 }
 
 //出栈顶最近驻留用户
-void Place::popStayPlayers()
+void Place::popStayPlayers(vector<Player>::iterator it)
 {
-	stayPlayers.pop();
+	vector<vector<Player>::iterator>::iterator ait;
+	for (ait = stayPlayers.begin(); ait != stayPlayers.end(); ++ait)
+	{
+		if (*ait == it) stayPlayers.erase(ait);
+	}
 }
 
 //驻留数
-int Place::getStayPlayerNum()
+bool Place::isStayEmpty()
 {
-	return stayPlayers.size();
+	return stayPlayers.empty();
+}
+
+vector<Player>::iterator Place::getPlaceOwner()
+{
+	return placeOwner;
 }

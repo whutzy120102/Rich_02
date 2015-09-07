@@ -2,6 +2,10 @@
 //设置初始资金
 void Game::setDefalutMoney()
 {
+    while (defaultMoney < 1000 || defaultMoney > 50000) {
+        cout << "请输入玩家的初始金额：";
+        cin >> defaultMoney;
+    }
 	vector<Player>::iterator it;
 	for (it = players.begin(); it != players.end(); ++it)
 	{
@@ -35,7 +39,7 @@ void Game::initPlayer()
 	for (int i = 0; i < playerNum; ++i)
 	{
 		int num = charToInt(input[i]);
-		addPlayer(Player(STAY_PLAYERS[num - 1], i + 1, PLAYER_SIGN[num - 1]));
+		addPlayer(Player(STAY_PLAYERS[num - 1], i + 1, PLAYER_SIGN[num - 1], i+1));
 	}
 	setDefalutMoney();
 }
@@ -146,7 +150,11 @@ void Game::goGameBody()
 					//执行命令
 					getCommandInput(tempCmd);
 					//玩家强行退出
-					if (command->equalCommand(tempCmd, "quit")) return;
+					if (command->equalCommand(tempCmd, "quit"))
+					{
+						players.clear();
+						return;
+					}
 					if ((command->equalCommand(tempCmd, "finish")) && (roll_once == 1))
 					{
 						break;
@@ -163,7 +171,7 @@ void Game::goGameBody()
 						//刷新地图
 						flushMap();
 						//提示用户输入
-						cout << it->getPlayerName() << ">";
+						cout << lredcolor << it->getPlayerName() << ">";
 						//执行不同位置操作
 						doAction = PlayerAction::stayInDiffPlace(it, map, it->getPlayerPos());
 						needInc = true;
@@ -183,7 +191,7 @@ void Game::goGameBody()
 					//exit有问题
 					else if (command->equalCommand(tempCmd, "exit"))
 					{
-						//command->exit(it, map);
+						command->exit(it, map);
 
 						deletePlayer(it);
 						needInc = true;
@@ -202,10 +210,12 @@ void Game::goGameBody()
 
 
 					}
+					/*
 					else
 					{
 						cout << "没有你选择的命令,请输入help查看帮助" << endl;
 					}
+					*/
 
 				}
 			}

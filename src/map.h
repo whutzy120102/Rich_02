@@ -1,6 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 #include "place.h"
+#include "colorOut.h"
 //地图宽高
 const int WIDTH = 29;
 const int HEIGHT = 8;
@@ -99,14 +100,13 @@ public:
 	//重新设置玩家相关信息
 	void cleanMapOfPlayer(vector<Player>::iterator it);
 
-	//驻留数
-	int getHerePlayerNum(int pos);
+	bool isStayEmpty(int pos);
 	
-	vector<Player>::iterator topHerePlayer(int pos);
-	void popHerePlayer(int pos);
+	vector<vector<Player>::iterator>::iterator topHerePlayer(int pos);
+	void popHerePlayer(vector<Player>::iterator it, int pos);
 
 	void pushHerePlayer(vector<Player>::iterator it, int pos);
-
+	void printOwnerColor(int i);
 
 };
 #endif

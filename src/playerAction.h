@@ -18,8 +18,18 @@ public:
 		int currentPos = it->getPlayerPos();
 		int x = _X_Y_PLACE[currentPos][0];
 		int y = _X_Y_PLACE[currentPos][1];
-		map->setMapHereSign(x, y, map->getMapHereSign(currentPos));
-		
+	/*	if (!map->isStayEmpty(currentPos))
+		{
+			vector<vector<Player>::iterator>::iterator ait;
+			map->popHerePlayer(it, currentPos);
+			ait = map->topHerePlayer(currentPos);
+			map->setMapHereSign(x, y, (*ait)->getPlayerSign());
+			
+		}*/
+		//else 
+		//{
+			map->setMapHereSign(x, y, map->getMapHereSign(currentPos));
+		//}
 	}
 	/*
 	*º¯Êý£ºgoStep(int step)
@@ -247,6 +257,8 @@ public:
 		default:
 			break;
 		}
+        cout << endl;
+        system("Pause");
 		return doAction;
 	}
 

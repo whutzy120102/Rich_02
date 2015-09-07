@@ -13,14 +13,17 @@ private:
 	int placeType;	//地块的类型
 	int placePrice;	//地块的价格
 
-	stack<vector<Player>::iterator > stayPlayers;//驻留用户
+	vector<vector<Player>::iterator> stayPlayers;//驻留用户
 
 	vector<Player>::iterator placeOwner;	//地块拥有者
 	unsigned int x_place;	//地块x坐标
 	unsigned int y_place;	//地块y坐标
 
 public:
-	Place() {}
+	Place() 
+	{
+
+	}
 	~Place() {}
 	
 	void setPlaceX(unsigned int x);
@@ -47,6 +50,8 @@ public:
 	char getPlaceSign();
 	string getPlaceOwnerName();
 
+	vector<Player>::iterator getPlaceOwner();
+
 	/**
 	*函数:charge(int money)
 	*参数说明：int:收费钱数
@@ -61,13 +66,12 @@ public:
 
 
 	//获取最近驻留用户
-	vector<Player>::iterator topStayPlayers();
+	vector<vector<Player>::iterator>::iterator topStayPlayers();
 
 	//出栈顶最近驻留用户
-	void popStayPlayers();
+	void popStayPlayers(vector<Player>::iterator it);
 
-	//驻留数
-	int getStayPlayerNum();
+	bool Place::isStayEmpty();
 
 };
 #endif

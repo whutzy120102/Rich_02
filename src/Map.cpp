@@ -95,19 +95,60 @@ void Map::setMapHereSign(int x, int y, char sign)
 	mapGraph[x][y] = sign;
 }
 
-
+//
+void Map::printOwnerColor(int i)
+{
+	int type = places[i].getPlaceType();
+	if (type == 1)
+	{
+		vector<Player>::iterator it = places[i].getPlaceOwner();
+		unsigned short color = it->getPlayerSignColor();
+		switch (color)
+		{
+		case 1: cout << greencolor << mapGraph[_X_Y_PLACE[i][0]][_X_Y_PLACE[i][1]]; break;
+		case 2: cout << redcolor << mapGraph[_X_Y_PLACE[i][0]][_X_Y_PLACE[i][1]]; break;
+		case 3: cout << yellowcolor << mapGraph[_X_Y_PLACE[i][0]][_X_Y_PLACE[i][1]]; break;
+		case 4: cout << bluecolor << mapGraph[_X_Y_PLACE[i][0]][_X_Y_PLACE[i][1]]; break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		cout << lredcolor << mapGraph[_X_Y_PLACE[i][0]][_X_Y_PLACE[i][1]];
+	}
+}
 
 void Map::printMap()
 {
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 29; ++i)
 	{
-		for (int j = 0; j < 29; j++)
+		printOwnerColor(i);
+		
+	}
+	cout << endl;
+	for (int i = 1; i < 7; i++)
+	{
+		int c = 1;
+		int begin = 69;
+		
+		printOwnerColor(begin - c);
+		for (int j = 1; j < 28; j++)
 		{
 			char cur = mapGraph[i][j];
-			cout << cur;
+			cout <<lredcolor << cur;
 		}
+		printOwnerColor(i + 28);
+		c++;
+		begin--;
 		cout << endl;
 	}
+
+	for (int i = 63; i > 34; --i)
+	{
+		printOwnerColor(i);
+	}
+	cout << endl;
 }
 
 //0：空地；1：占有；2：矿地， -1：原点
@@ -224,19 +265,19 @@ void Map::cleanMapOfPlayer(vector<Player>::iterator it)
 }
 
 //驻留数
-int Map::getHerePlayerNum(int pos)
+bool Map::isStayEmpty(int pos)
 {
-	return places[pos].getStayPlayerNum();
+	return places[pos].isStayEmpty();
 }
 
-vector<Player>::iterator Map::topHerePlayer(int pos)
+vector<vector<Player>::iterator>::iterator Map::topHerePlayer(int pos)
 {
 	return places[pos].topStayPlayers();
 }
 
-void Map::popHerePlayer(int pos)
+void Map::popHerePlayer(vector<Player>::iterator it, int pos)
 {
-	places[pos].popStayPlayers();
+	places[pos].popStayPlayers(it);
 }
 void Map::pushHerePlayer(vector<Player>::iterator it, int pos)
 {
