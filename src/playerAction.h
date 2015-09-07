@@ -126,18 +126,6 @@ public:
 			map->charge(stayCost, pos);
 			return true;
 		}
-		else
-		{
-			cout << "请先出售地块来支付停留费用";
-			queryAssets(it);
-			if (it->getOwnPosNum() != 0)
-			{
-				sellPlace(it, map);
-				payForStay(it, map, pos);
-			}
-			else return false;
-			
-		}
 		return false;
 	}
 
@@ -216,7 +204,7 @@ public:
 				cin >> isBuy;
 				if (isBuy == 'y')
 				{
-					cout << "你将花费 " << map->getPlacePrice(pos) << "买去该地" << endl;
+					cout << "你将花费 " << map->getPlacePrice(pos) << "购买该地" << endl;
 					doAction = buyLand(it, map, pos);
 					if (!doAction)
 					{
@@ -284,6 +272,7 @@ public:
 	//出售房产
 	static bool sellPlace(vector<Player>::iterator it, Map *map)
 	{
+	
 		int pos;
 		cout << "请输入要出售地块编号" << endl;
 		cin >> pos;
@@ -301,6 +290,8 @@ public:
 				it->setPlayerAssets(currAssets + inCome);
 				it->deletePos(pos);
 				map->setMapHereSign(_X_Y_PLACE[pos][0], _X_Y_PLACE[pos][1], '0');
+				
+			//	map->setPlaceOwner(Player(" ", 0, 0, 0));
 				map->setPlaceLevel(pos, 0);
 				map->setPlaceType(pos, 0);
 				map->setPlaceSign(pos, '0');
