@@ -18,19 +18,7 @@ public:
 		int currentPos = it->getPlayerPos();
 		int x = _X_Y_PLACE[currentPos][0];
 		int y = _X_Y_PLACE[currentPos][1];
-		/*if (map->getHerePlayerNum(currentPos) > 1)
-		{
-			vector<Player>::iterator prePlayer;
-			map->popHerePlayer(currentPos);
-			prePlayer = map->topHerePlayer(currentPos);
-			map->setMapHereSign(x, y, prePlayer->getPlayerSign());
-		}*/
-	//	else
-		//{
-			map->setMapHereSign(x, y, map->getMapHereSign(currentPos));
-			//map->popHerePlayer(currentPos);
-		//}
-		
+		map->setMapHereSign(x, y, map->getMapHereSign(currentPos));
 		
 	}
 	/*
@@ -226,6 +214,7 @@ public:
 						cout << "你没有足够的资金买这块土地" << endl;
 					}
 				}
+				
 				break;
 		case 1:
 			//呆在别人地块,交费
@@ -252,6 +241,8 @@ public:
 			break;
 		//呆在监狱
 		case 3:
+			cout << "真不幸运，你来到魔鬼监狱，你将轮空操作两次" << endl;
+			it->setNoActionTimes(NO_ACTION_PRISION_TIMES);
 			break;
 		default:
 			break;
@@ -312,7 +303,17 @@ public:
 		return false;
 	}
 	
+	//设置轮空次数
+	static void setNoActionTimes(vector<Player>::iterator it, int times)
+	{
+		it->setNoActionTimes(times);
+	}
 
+	//获取轮空次数
+	static int getNoActionTimes(vector<Player>::iterator it)
+	{
+		return it->getNoActionTimes();
+	}
 
 };
 

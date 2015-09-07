@@ -106,6 +106,7 @@ void Place::charge(int money)
 	placeOwner->setPlayerAssets(currAssets + money);
 }
 
+
 //Ìí¼Ó×¤ÁôÓÃ»§
 void Place::pushStayPlayers(vector<Player>::iterator it)
 {
